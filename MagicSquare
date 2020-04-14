@@ -1,0 +1,87 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the formingMagicSquare function below.
+    static int formingMagicSquare(int[][] s) {
+
+        //IMPORTING ALL POSSIBLE COMBINATIONS
+            int[][][] possibleTypes = {
+            {{8, 1, 6}, {3, 5, 7}, {4, 9, 2}},// 1
+
+            {{6, 1, 8}, {7, 5, 3}, {2, 9, 4}},// 2
+
+            {{4, 9, 2}, {3, 5, 7}, {8, 1, 6}},// 3
+
+            {{2, 9, 4}, {7, 5, 3}, {6, 1, 8}},// 4
+
+            {{8, 3, 4}, {1, 5, 9}, {6, 7, 2}},// 5
+
+            {{4, 3, 8}, {9, 5, 1}, {2, 7, 6}},// 6
+
+            {{6, 7, 2}, {1, 5, 9}, {8, 3, 4}},// 7
+
+            {{2, 7, 6}, {9, 5, 1}, {4, 3, 8}},// 8
+        };
+
+        int[] permutationResult = new int[8];//ARRAY TO STORE DIIFERENCE WITH ALL 8 CASES
+
+        
+        int count = 0;
+
+        for(int p = 0 ; p < 8 ; p++){
+            int permutationcost = 0;
+
+            for(int i = 0; i< 3 ; i++){
+                for(int j = 0; j< 3 ; j++){
+                    permutationcost += Math.abs(s[i][j] - possibleTypes[p][i][j]); //CALCULATING ABSOULTE DIFFERENCE
+                }
+            }
+            permutationResult[count] = permutationcost;
+            count++;
+            
+        }
+
+        Arrays.sort(permutationResult); 
+
+        return permutationResult[0]; // RETURNING THE INIMUM ONE
+
+
+
+
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int[][] s = new int[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            String[] sRowItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < 3; j++) {
+                int sItem = Integer.parseInt(sRowItems[j]);
+                s[i][j] = sItem;
+            }
+        }
+
+        int result = formingMagicSquare(s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
